@@ -3,7 +3,7 @@ require('../models/Crypto');
 
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/CrytpTrackerDB');
+mongoose.connect('mongodb://localhost:27017/CryptoTrackerDB');
 
 mongoose.connection.on('connected', () => {
   console.log(`connected`);

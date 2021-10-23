@@ -2,13 +2,18 @@ require('./data/index.data');
 
 const express = require('express');
 const indexRouter = require('./routes/index.routes');
+const authRouter = require('./routes/auth.routes');
 const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(indexRouter);
-app.use(cors); //CORS HTTP header
+// app.use(cors); //CORS HTTP header
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: false })); // For parsing application/x-www-form-urlencoded
+
+app.use(indexRouter); //index router for '/'
+app.use(authRouter); // auth router for '/register'
 
 app.listen(PORT, (error) => {
   if (error) {
