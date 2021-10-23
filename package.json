@@ -4,7 +4,7 @@
   "description": "Crypto portfolio tracker backend",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon"
+    "dev": "nodemon"
   },
   "repository": {
     "type": "git",
