@@ -22,6 +22,23 @@ const userSchema = new mongoose.Schema({
   // },
 });
 
+// Email ID validator
+const emailRegex =
+  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+userSchema
+  .path('emailId')
+  .validate((emailId) => emailRegex.test(emailId), 'Invalid email id format');
+
+// Password validator
+const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+userSchema
+  .path('password')
+  .validate(
+    (password) => passwordRegex.test(password),
+    'Password must contain at least 1 lowercase, 1 uppercase , 1 numeric  and one special character'
+  );
+
 const saltFactor = Number(process.env.SALT_FACTOR);
 
 userSchema.pre('save', function (done) {

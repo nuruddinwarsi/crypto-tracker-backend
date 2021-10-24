@@ -9,7 +9,6 @@ const register = (req, res, next) => {
       status: 400,
       message: 'User details missing',
     });
-    // res.json({});
     return;
   }
 
@@ -27,7 +26,12 @@ const register = (req, res, next) => {
       } else {
         error.status = 500;
       }
-      return next(error);
+      res.status(error.status).json({
+        status: error.status,
+        message: error.message,
+      });
+
+      return;
     });
 };
 
