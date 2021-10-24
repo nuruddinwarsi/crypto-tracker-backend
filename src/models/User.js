@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   // },
 });
 
-const SALT_FACTOR = 10;
+const saltFactor = Number(process.env.SALT_FACTOR);
 
 userSchema.pre('save', function (done) {
   const user = this;
@@ -33,7 +33,7 @@ userSchema.pre('save', function (done) {
   }
 
   // password has been updated - hash and save it
-  bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
+  bcrypt.genSalt(saltFactor, (err, salt) => {
     if (err) {
       return done(err);
     }
