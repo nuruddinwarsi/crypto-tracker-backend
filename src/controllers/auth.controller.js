@@ -55,6 +55,13 @@ const register = (req, res, next) => {
                 });
                 return;
               } else {
+                // set http cookie
+                res.cookie('jwt', token, {
+                  expires: new Date(
+                    Date.now() + process.env.JWT_EXPIRES_IN * 60 * 60 * 1000
+                  ),
+                  httpOnly: false, //false - so that cookie can be deleted from client end
+                });
                 // Create new user on success and send as response
                 res.status(201).json({
                   status: true,

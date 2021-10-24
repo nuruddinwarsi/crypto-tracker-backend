@@ -1,5 +1,6 @@
-const home = (req, res) => {
-  res.end('Homepage');
+const home = (req, res, next) => {
+  const claims = res.locals;
+  res.send(claims);
 };
 
 module.exports = {

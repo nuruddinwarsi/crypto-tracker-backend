@@ -5,6 +5,7 @@ const express = require('express');
 const indexRouter = require('./routes/index.routes');
 const authRouter = require('./routes/auth.routes');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,7 +13,9 @@ const PORT = process.env.PORT || 3000;
 // app.use(cors); //CORS HTTP header
 app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({ extended: false })); // For parsing application/x-www-form-urlencoded
+app.use(cookieParser()); // to get cookies from request
 
+// Routes
 app.use(indexRouter); //index router for '/'
 app.use(authRouter); // auth router for '/register'
 
