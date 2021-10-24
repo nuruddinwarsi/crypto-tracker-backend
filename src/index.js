@@ -1,3 +1,4 @@
+require('dotenv').config(); //import dotenv for process.env setup
 require('./data/index.data');
 
 const express = require('express');
