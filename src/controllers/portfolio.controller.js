@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 const Crypto = mongoose.model('Crypto');
 const User = mongoose.model('User');
 
-const getPortfolio = (req, res, next) => {
+const getUserIdFromCookie = (res) => {
   // Get cookie data from auth middleware
   const claims = res.locals;
+
   if (Object.keys(claims).length === 0) {
     res.status(401).json({
       status: false,
@@ -22,6 +23,12 @@ const getPortfolio = (req, res, next) => {
     });
     return;
   }
+
+  return userId;
+};
+
+const getPortfolio = (req, res, next) => {
+  const userId = getUserIdFromCookie(res);
 
   User.findOne({ _id: userId })
     .populate('crypto')
@@ -43,25 +50,7 @@ const getPortfolio = (req, res, next) => {
 };
 
 const addToPortfolio = (req, res, next) => {
-  // Get cookie data from auth middleware
-  const claims = res.locals;
-  if (Object.keys(claims).length === 0) {
-    res.status(401).json({
-      status: false,
-      message: 'You cant access this section before logging in',
-    });
-    return;
-  }
-
-  // Check if userId exists in the cookie data
-  const userId = claims.claims.userId;
-  if (!userId) {
-    res.status(401).json({
-      status: false,
-      message: 'You cant access this section before logging in',
-    });
-    return;
-  }
+  const userId = getUserIdFromCookie(res);
 
   // Get request body data
   const cryptoRequest = req.body;
@@ -80,13 +69,15 @@ const addToPortfolio = (req, res, next) => {
             });
             return;
           } else {
-            result.crypto.push(cryptoData._id);
+            // res.send(result);
+            console.log(result);
+            // result.crypto.push(cryptoData._id);
 
             res.status(201).json({
               status: true,
               messagae: 'Crypto data added to portfolio',
               data: cryptoData,
-              portfolioCrypto: result.crypto,
+              // portfolioCrypto: result.crypto,
             });
           }
         }
