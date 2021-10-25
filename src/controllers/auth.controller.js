@@ -52,7 +52,7 @@ const register = (req, res, next) => {
                 // Throw error message
                 error.status = 500;
                 res.status(500).json({
-                  status: false,
+                  status: 500,
                   mesage: error.message,
                 });
                 return;
@@ -66,7 +66,7 @@ const register = (req, res, next) => {
                 });
                 // Create new user on success and send as response
                 res.status(201).json({
-                  status: true,
+                  status: 201,
                   user: {
                     userId: newUser._id,
                     username: newUser.username,
@@ -85,7 +85,7 @@ const register = (req, res, next) => {
             error.status = 500;
           }
           res.status(error.status).json({
-            status: false,
+            status: error.status,
             message: error,
           });
 
@@ -101,7 +101,7 @@ const login = (req, res, next) => {
 
   if (!user) {
     res.status(401).json({
-      status: false,
+      status: 401,
       message: 'User details not provided',
     });
     return;
@@ -109,7 +109,7 @@ const login = (req, res, next) => {
 
   if (!user.emailId || !user.password) {
     res.status(401).json({
-      status: false,
+      status: 401,
       message: 'Incorrect email id or password',
     });
     return;
@@ -118,7 +118,7 @@ const login = (req, res, next) => {
   User.findOne({ emailId: user.emailId }, (error, userFound) => {
     if (error || !userFound) {
       res.status(404).json({
-        status: false,
+        status: 404,
         message: 'Credentials not found',
       });
       return;
@@ -126,7 +126,7 @@ const login = (req, res, next) => {
       userFound.checkPassword(user.password, (error, isMatch) => {
         if (error || !isMatch) {
           res.status(404).json({
-            status: false,
+            status: 404,
             message: 'Credentials not found',
           });
           return;
@@ -153,7 +153,7 @@ const login = (req, res, next) => {
               // Throw error message
               error.status = 500;
               res.status(500).json({
-                status: false,
+                status: 500,
                 mesage: error.message,
               });
               return;
@@ -167,7 +167,7 @@ const login = (req, res, next) => {
               });
               // Create new user on success and send as response
               res.status(200).json({
-                status: true,
+                status: 200,
                 user: {
                   userId: userFound._id,
                   username: userFound.username,

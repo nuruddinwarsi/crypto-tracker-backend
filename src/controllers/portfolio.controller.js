@@ -8,7 +8,7 @@ const getUserIdFromCookie = (res) => {
 
   if (Object.keys(claims).length === 0) {
     res.status(401).json({
-      status: false,
+      status: 401,
       message: 'You cant access this section before logging in',
     });
     return;
@@ -18,7 +18,7 @@ const getUserIdFromCookie = (res) => {
   const userId = claims.claims.userId;
   if (!userId) {
     res.status(401).json({
-      status: false,
+      status: 401,
       message: 'You cant access this section before logging in',
     });
     return;
@@ -35,13 +35,13 @@ const getPortfolio = (req, res, next) => {
     .exec((err, populatedData) => {
       if (err) {
         res.status(401).json({
-          status: false,
+          status: 401,
           message: err,
         });
         return;
       } else {
         res.status(200).json({
-          status: true,
+          status: 200,
           message: 'Portfolio successfully retrieved',
           data: populatedData.crypto,
         });
@@ -64,7 +64,7 @@ const addToPortfolio = (req, res, next) => {
         (err, result) => {
           if (err) {
             res.status(401).json({
-              status: false,
+              status: 401,
               message: err,
             });
             return;
@@ -73,7 +73,7 @@ const addToPortfolio = (req, res, next) => {
             result.crypto.push(cryptoData._id);
 
             res.status(201).json({
-              status: true,
+              status: 201,
               messagae: 'Crypto data added to portfolio',
               data: cryptoData,
               portfolioCrypto: result.crypto,
@@ -84,7 +84,7 @@ const addToPortfolio = (req, res, next) => {
     })
     .catch((error) => {
       res.status(error.status).json({
-        status: false,
+        status: error.status,
         message: error.message,
       });
     });
@@ -97,7 +97,7 @@ const removeFromPortfolio = (req, res, next) => {
   Crypto.deleteOne({ _id: cryptoId }, (err, success) => {
     if (err) {
       res.status(401).json({
-        status: false,
+        status: 401,
         message: err,
       });
       return;
@@ -109,13 +109,13 @@ const removeFromPortfolio = (req, res, next) => {
         (error, result) => {
           if (error) {
             res.status(401).json({
-              status: false,
+              status: 401,
               message: error,
             });
             return;
           }
           res.status(200).json({
-            status: true,
+            status: 200,
             message: 'Data deleted from portfolio',
             data: result,
           });
