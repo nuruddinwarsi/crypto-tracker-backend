@@ -163,7 +163,7 @@ const login = (req, res, next) => {
                 httpOnly: false, //false - so that cookie can be deleted from client end
               });
               // Create new user on success and send as response
-              res.status(201).json({
+              res.status(200).json({
                 status: true,
                 user: {
                   username: userFound.username,
