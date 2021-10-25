@@ -31,6 +31,7 @@ const register = (req, res, next) => {
         .then((newUser) => {
           // create token for claims
           let claims = {
+            userId: newUser._id,
             username: newUser.username,
             emailId: newUser.emailId,
           };
@@ -67,6 +68,7 @@ const register = (req, res, next) => {
                 res.status(201).json({
                   status: true,
                   user: {
+                    userId: newUser._id,
                     username: newUser.username,
                     emailId: newUser.emailId,
                     token: token,
@@ -131,6 +133,7 @@ const login = (req, res, next) => {
         }
 
         const claims = {
+          userId: userFound._id,
           username: userFound.username,
           emailId: userFound.emailId,
         };
@@ -166,6 +169,7 @@ const login = (req, res, next) => {
               res.status(200).json({
                 status: true,
                 user: {
+                  userId: userFound._id,
                   username: userFound.username,
                   emailId: userFound.emailId,
                   token: token,
