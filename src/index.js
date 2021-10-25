@@ -4,6 +4,7 @@ require('./data/index.data');
 const express = require('express');
 const indexRouter = require('./routes/index.routes');
 const authRouter = require('./routes/auth.routes');
+const portfolioRouter = require('./routes/portfolio.routes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
@@ -18,6 +19,7 @@ app.use(cookieParser()); // to get cookies from request
 // Routes
 app.use(indexRouter); //index router for '/'
 app.use(authRouter); // auth router for '/register'
+app.use(portfolioRouter); //router to add and get portfolio data
 
 app.listen(PORT, (error) => {
   if (error) {

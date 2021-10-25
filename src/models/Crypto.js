@@ -22,4 +22,4 @@ const cryptoSchema = new mongoose.Schema({
   },
 });
 
-mongoose.model('crypto', cryptoSchema);
+mongoose.model('Crypto', cryptoSchema);

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const cryptoSchema = require('./Crypto');
 const bcrypt = require('bcrypt');
+const Schema = mongoose.Schema;
+const Crypto = require('./Crypto');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -16,10 +17,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // crypto: {
-  //   type: cryptoSchema,
-  //   _id: false,
-  // },
+  crypto: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Crypto',
+      // _id: false,
+    },
+  ],
 });
 
 // Email ID validator
