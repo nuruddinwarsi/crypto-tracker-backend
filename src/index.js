@@ -21,6 +21,14 @@ app.use(indexRouter); //index router for '/'
 app.use(authRouter); // auth router for '/register'
 app.use(portfolioRouter); //router to add and get portfolio data
 
+// Make random links for the api shown as not found
+app.use((req, res, next) => {
+  res.status(404).send({
+    status: 404,
+    error: 'Not found',
+  });
+});
+
 app.listen(PORT, (error) => {
   if (error) {
     console.error(error.message);
