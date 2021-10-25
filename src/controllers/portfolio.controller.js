@@ -3,8 +3,43 @@ const Crypto = mongoose.model('Crypto');
 const User = mongoose.model('User');
 
 const getPortfolio = (req, res, next) => {
+  // Get cookie data from auth middleware
   const claims = res.locals;
-  res.send(claims);
+  if (Object.keys(claims).length === 0) {
+    res.status(401).json({
+      status: false,
+      message: 'You cant access this section before logging in',
+    });
+    return;
+  }
+
+  // Check if userId exists in the cookie data
+  const userId = claims.claims.userId;
+  if (!userId) {
+    res.status(401).json({
+      status: false,
+      message: 'You cant access this section before logging in',
+    });
+    return;
+  }
+
+  User.findOne({ _id: userId })
+    .populate('crypto')
+    .exec((err, populatedData) => {
+      if (err) {
+        res.status(401).json({
+          status: false,
+          message: err,
+        });
+        return;
+      } else {
+        res.status(200).json({
+          status: true,
+          message: 'Portfolio successfully retrieved',
+          data: populatedData.crypto,
+        });
+      }
+    });
 };
 
 const addToPortfolio = (req, res, next) => {
