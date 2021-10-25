@@ -69,15 +69,14 @@ const addToPortfolio = (req, res, next) => {
             });
             return;
           } else {
-            // res.send(result);
             console.log(result);
-            // result.crypto.push(cryptoData._id);
+            result.crypto.push(cryptoData._id);
 
             res.status(201).json({
               status: true,
               messagae: 'Crypto data added to portfolio',
               data: cryptoData,
-              // portfolioCrypto: result.crypto,
+              portfolioCrypto: result.crypto,
             });
           }
         }
@@ -91,4 +90,39 @@ const addToPortfolio = (req, res, next) => {
     });
 };
 
-module.exports = { getPortfolio, addToPortfolio };
+const removeFromPortfolio = (req, res, next) => {
+  const userId = getUserIdFromCookie(res);
+
+  const cryptoId = req.params.cryptoId;
+  Crypto.deleteOne({ _id: cryptoId }, (err, success) => {
+    if (err) {
+      res.status(401).json({
+        status: false,
+        message: err,
+      });
+      return;
+    } else {
+      User.updateOne(
+        { _id: userId },
+        { $pull: { crypto: cryptoId } },
+        { multi: true },
+        (error, result) => {
+          if (error) {
+            res.status(401).json({
+              status: false,
+              message: error,
+            });
+            return;
+          }
+          res.status(200).json({
+            status: true,
+            message: 'Data deleted from portfolio',
+            data: result,
+          });
+        }
+      );
+    }
+  });
+};
+
+module.exports = { getPortfolio, addToPortfolio, removeFromPortfolio };
