@@ -4,9 +4,17 @@ const Schema = mongoose.Schema;
 const Crypto = require('./Crypto');
 
 const userSchema = new mongoose.Schema({
+  firstName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
   username: {
     type: String,
-    require: true,
+    required: true,
   },
   emailId: {
     type: String,
@@ -25,6 +33,18 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
+
+// Name validator
+const nameRegEx = /^[A-Za-z]+$/;
+userSchema
+  .path('firstName')
+  .validate((firstName) => nameRegEx.test(firstName), 'Invalid first name');
+userSchema
+  .path('lastName')
+  .validate((lastName) => nameRegEx.test(lastName), 'Invalid last name');
+userSchema
+  .path('username')
+  .validate((username) => nameRegEx.test(username), 'Invalid username');
 
 // Email ID validator
 const emailRegex =

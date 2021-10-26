@@ -86,7 +86,7 @@ const register = (req, res, next) => {
           }
           res.status(error.status).json({
             status: error.status,
-            message: error,
+            message: error.message,
           });
 
           return;
