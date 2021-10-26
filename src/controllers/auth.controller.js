@@ -164,9 +164,7 @@ const login = (req, res, next) => {
                 'jwt',
                 token,
                 {
-                  expires: new Date(
-                    Date.now() + process.env.JWT_EXPIRES_IN * 60 * 60 * 1000
-                  ),
+                  expires: new Date(Date.now() + expiry * 24 * 60 * 60 * 1000),
                 },
                 { signed: true, httpOnly: true }
               );
