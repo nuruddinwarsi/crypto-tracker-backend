@@ -67,12 +67,9 @@ const register = (req, res, next) => {
                 // Create new user on success and send as response
                 res.status(201).json({
                   status: 201,
-                  user: {
-                    userId: newUser._id,
-                    username: newUser.username,
-                    emailId: newUser.emailId,
-                    token: token,
-                  },
+                  username: newUser.username,
+                  emailId: newUser.emailId,
+                  token: token,
                 });
               }
             }
@@ -168,12 +165,9 @@ const login = (req, res, next) => {
               // Create new user on success and send as response
               res.status(200).json({
                 status: 200,
-                user: {
-                  userId: userFound._id,
-                  username: userFound.username,
-                  emailId: userFound.emailId,
-                  token: token,
-                },
+                username: userFound.username,
+                emailId: userFound.emailId,
+                token: token,
               });
             }
           }
