@@ -20,6 +20,10 @@ const cryptoSchema = new mongoose.Schema({
   boughtFrom: {
     type: String,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 mongoose.model('Crypto', cryptoSchema);
