@@ -5,6 +5,10 @@ const cryptoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  coinName: {
+    type: String,
+    required: true,
+  },
   quantity: {
     type: Number,
     required: true,
