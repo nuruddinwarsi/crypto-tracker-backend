@@ -83,8 +83,8 @@ const addToPortfolio = (req, res, next) => {
       );
     })
     .catch((error) => {
-      res.status(error.status).json({
-        status: error.status,
+      res.status(503).json({
+        status: 503,
         message: error.message,
       });
     });
