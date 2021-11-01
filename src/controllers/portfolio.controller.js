@@ -136,6 +136,7 @@ const getPortfolioSummary = (req, res, next) => {
       status: 400,
       message: 'Missing required parameters',
     });
+    return;
   }
 
   coinId = coinId.toUpperCase();
@@ -156,6 +157,14 @@ const getPortfolioSummary = (req, res, next) => {
         });
         return;
       } else {
+        if (populatedData.crypto.length === 0) {
+          res.status(200).json({
+            status: 200,
+            message: `No data found for ${coinId}`,
+          });
+          return;
+        }
+
         res.status(200).json({
           status: 200,
           message: `Summary for ${coinId} retrieved:`,
