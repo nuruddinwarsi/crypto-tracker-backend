@@ -125,4 +125,49 @@ const removeFromPortfolio = (req, res, next) => {
   });
 };
 
-module.exports = { getPortfolio, addToPortfolio, removeFromPortfolio };
+const getPortfolioSummary = (req, res, next) => {
+  // req = coinId, userId
+  const userId = getUserIdFromCookie(res);
+  let coinId = req.query.coinId;
+
+  if (!coinId) {
+    // error handler
+    res.status(400).json({
+      status: 400,
+      message: 'Missing required parameters',
+    });
+  }
+
+  coinId = coinId.toUpperCase();
+
+  // get all portfolio data for matching coinId
+  User.findOne({ _id: userId })
+    .populate({
+      path: 'crypto',
+      match: {
+        coinId: coinId,
+      },
+    })
+    .exec((err, populatedData) => {
+      if (err) {
+        res.status(401).json({
+          status: 401,
+          message: err,
+        });
+        return;
+      } else {
+        res.status(200).json({
+          status: 200,
+          message: `Summary for ${coinId} retrieved:`,
+          data: populatedData.crypto,
+        });
+      }
+    });
+};
+
+module.exports = {
+  getPortfolio,
+  addToPortfolio,
+  removeFromPortfolio,
+  getPortfolioSummary,
+};

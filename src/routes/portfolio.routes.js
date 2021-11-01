@@ -5,6 +5,7 @@ const {
   getPortfolio,
   addToPortfolio,
   removeFromPortfolio,
+  getPortfolioSummary,
 } = require('../controllers/portfolio.controller');
 const { authenticate } = require('../middleware/auth.middleware');
 
@@ -15,5 +16,6 @@ router.patch(
   authenticate,
   removeFromPortfolio
 );
+router.get('/api/v1/getPortfolioSummary', authenticate, getPortfolioSummary);
 
 module.exports = router;
