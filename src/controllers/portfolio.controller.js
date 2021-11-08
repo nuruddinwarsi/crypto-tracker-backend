@@ -7,9 +7,10 @@ const getUserIdFromCookie = (res) => {
   const claims = res.locals;
 
   if (Object.keys(claims).length === 0) {
-    res.status(401).json({
-      status: 401,
-      message: 'You cant access this section before logging in',
+    res.status(200).json({
+      code: 200,
+      status: false,
+      message: "You can't access this section before logging in",
     });
     return;
   }
@@ -17,9 +18,10 @@ const getUserIdFromCookie = (res) => {
   // Check if userId exists in the cookie data
   const userId = claims.claims.userId;
   if (!userId) {
-    res.status(401).json({
-      status: 401,
-      message: 'You cant access this section before logging in',
+    res.status(200).json({
+      code: 200,
+      status: false,
+      message: "You can't access this section before logging in",
     });
     return;
   }
@@ -34,14 +36,16 @@ const getPortfolio = (req, res, next) => {
     .populate('crypto')
     .exec((err, populatedData) => {
       if (err) {
-        res.status(401).json({
-          status: 401,
+        res.status(200).json({
+          code: 200,
+          status: false,
           message: err,
         });
         return;
       } else {
         res.status(200).json({
-          status: 200,
+          code: 200,
+          status: true,
           message: 'Portfolio successfully retrieved',
           data: populatedData.crypto,
         });
@@ -63,8 +67,9 @@ const addToPortfolio = (req, res, next) => {
         { $push: { crypto: cryptoData._id } },
         (err, result) => {
           if (err) {
-            res.status(401).json({
-              status: 401,
+            res.status(200).json({
+              code: 200,
+              status: false,
               message: err,
             });
             return;
@@ -73,7 +78,8 @@ const addToPortfolio = (req, res, next) => {
             result.crypto.push(cryptoData._id);
 
             res.status(201).json({
-              status: 201,
+              code: 201,
+              status: true,
               messagae: 'Crypto data added to portfolio',
               data: cryptoData,
               portfolioCrypto: result.crypto,
@@ -83,8 +89,9 @@ const addToPortfolio = (req, res, next) => {
       );
     })
     .catch((error) => {
-      res.status(400).json({
-        status: 400,
+      res.status(200).json({
+        code: 200,
+        status: false,
         message: error.message,
       });
     });
@@ -96,8 +103,9 @@ const removeFromPortfolio = (req, res, next) => {
   const cryptoId = req.params.cryptoId;
   Crypto.deleteOne({ _id: cryptoId }, (err, success) => {
     if (err) {
-      res.status(401).json({
-        status: 401,
+      res.status(200).json({
+        code: 200,
+        status: false,
         message: err,
       });
       return;
@@ -108,14 +116,16 @@ const removeFromPortfolio = (req, res, next) => {
         { multi: true },
         (error, result) => {
           if (error) {
-            res.status(401).json({
-              status: 401,
+            res.status(200).json({
+              code: 200,
+              status: false,
               message: error,
             });
             return;
           }
           res.status(200).json({
-            status: 200,
+            code: 200,
+            status: true,
             message: 'Data deleted from portfolio',
             data: result,
           });
@@ -132,8 +142,9 @@ const getPortfolioSummary = (req, res, next) => {
 
   if (!coinId) {
     // error handler
-    res.status(400).json({
-      status: 400,
+    res.status(200).json({
+      code: 200,
+      status: false,
       message: 'Missing required parameters',
     });
     return;
@@ -151,22 +162,25 @@ const getPortfolioSummary = (req, res, next) => {
     })
     .exec((err, populatedData) => {
       if (err) {
-        res.status(401).json({
-          status: 401,
+        res.status(200).json({
+          code: 200,
+          status: false,
           message: err,
         });
         return;
       } else {
         if (populatedData.crypto.length === 0) {
           res.status(200).json({
-            status: 200,
+            code: 200,
+            status: false,
             message: `No data found for ${coinId}`,
           });
           return;
         }
 
         res.status(200).json({
-          status: 200,
+          code: 200,
+          status: true,
           message: `Summary for ${coinId} retrieved:`,
           data: populatedData.crypto,
         });
