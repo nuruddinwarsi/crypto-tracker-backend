@@ -4,6 +4,7 @@ const authenticate = (req, res, next) => {
   const token = req.headers.authorization
     ? req.headers.authorization
     : req.cookies.jwt;
+  // const token = req.cookies.jwt;
   if (!token) {
     res.status(200).json({
       code: 200,
