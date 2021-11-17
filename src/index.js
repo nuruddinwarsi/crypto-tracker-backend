@@ -8,6 +8,7 @@ const portfolioRouter = require('./routes/portfolio.routes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
+const { xyHeader } = require('../src/middleware/xy.middleware');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false })); // For parsing application/x-w
 app.use(cookieParser()); // to get cookies from request
 
 // Routes
+app.use(xyHeader);
 app.use(indexRouter); //index router for '/'
 app.use(authRouter); // auth router for '/register'
 app.use(portfolioRouter); //router to add and get portfolio data
